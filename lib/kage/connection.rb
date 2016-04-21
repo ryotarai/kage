@@ -101,7 +101,10 @@ module Kage
           connect_backends!(@request, headers, server.backends)
         end
 
-        if @backends.size > 1
+        if server.disable_keepalive
+          info "Force close connection (disable keep-alives)"
+          headers['Connection'] = 'close'
+        elsif @backends.size > 1
           info "Multiple backends for this session: Force close connection (disable keep-alives)"
           headers['Connection'] = 'close'
         end

@@ -3,7 +3,7 @@ require 'kage/connection'
 
 module Kage
   class ProxyServer < ::Proxy
-    attr_accessor :host, :port, :debug, :client_timeout, :backend_timeout, :backends, :master, :callbacks
+    attr_accessor :host, :port, :debug, :client_timeout, :backend_timeout, :backends, :master, :callbacks, :disable_keepalive
 
     def initialize(options = {})
       @host = '0.0.0.0'
@@ -14,6 +14,7 @@ module Kage
       @backends = {}
       @master = nil
       @callbacks = {}
+      @disable_keepalive = false
 
       options.each do |k, v|
         send("#{k}=", v)
